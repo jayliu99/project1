@@ -6,15 +6,7 @@ def transcribe(seq: str) -> str:
     transcribes DNA to RNA by replacing
     all `T` to `U`
     """
-    return seq.replace("T", "U")
-
-
-def reverse_transcribe(seq: str) -> str:
-    """
-    transcribes DNA to RNA by replacing
-    all `T` to `U` then reverses the sequence
-    """
-    rna = transcribe(seq)
+    rna = seq.replace("T", "U")
 
     # Reverse the sequence
     for i in range(len(rna)):
@@ -24,3 +16,10 @@ def reverse_transcribe(seq: str) -> str:
         else: rna[i] = 'C'
 
     return rna
+
+def reverse_transcribe(seq: str) -> str:
+    """
+    transcribes DNA to RNA by replacing
+    all `T` to `U` then reverses the sequence
+    """
+    return transcribe(seq)[::-1]
