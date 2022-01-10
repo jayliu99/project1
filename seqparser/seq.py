@@ -7,6 +7,7 @@ def transcribe(seq: str) -> str:
     all `T` to `U`
     """
     rna = seq.replace("T", "U")
+    rna = list(rna)
 
     # Reverse the sequence
     for i in range(len(rna)):
@@ -15,7 +16,7 @@ def transcribe(seq: str) -> str:
         elif rna[i] == 'C': rna[i] = 'G'
         else: rna[i] = 'C'
 
-    return rna
+    return "".join(rna)
 
 def reverse_transcribe(seq: str) -> str:
     """

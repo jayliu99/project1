@@ -96,12 +96,14 @@ class Parser:
             # and implement an exception for the error you will find in
             # the error message you receive. 
             while True:
-                try:
-                    rec = self.get_record(f_obj)
+
+                rec = self.get_record(f_obj)
+                if not ''.join(rec): # Reached end of file
+                    f_obj.close()
+                    break
+                else:
                     yield rec
                     
-                except EOFError: 
-                    print("End of File")
 
     def _get_record(self, f_obj: io.TextIOWrapper) -> Union[Tuple[str, str], Tuple[str, str, str]]:
         """
@@ -121,9 +123,9 @@ class FastaParser(Parser):
         """
         returns the next fasta record
         """
-        name = f_obj.readline()[1:]
+        header = f_obj.readline()
         seq = f_obj.readline()
-        return (name, seq)
+        return (header, seq)
 
 
 class FastqParser(Parser):
@@ -134,9 +136,9 @@ class FastqParser(Parser):
         """
         returns the next fastq record
         """
-        name = f_obj.readline()[1:]
+        header = f_obj.readline()
         seq = f_obj.readline()
         spacer = f_obj.readline()
         quality = f_obj.readline()
-        return (name, seq, quality)
+        return (header, seq, quality)
 

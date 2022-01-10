@@ -1,5 +1,7 @@
 # write tests for parsers
 
+import filecmp
+
 from seqparser import (
         FastaParser,
         FastqParser)
@@ -28,7 +30,17 @@ def test_FastaParser():
     your FastaParser class and assert that it properly
     reads in the example Fasta File.
     """
-    pass
+    f_write = open('test_fa_temp.txt', 'w')
+
+    parser = FastaParser("./data/test.fa")
+    for p in parser: 
+        name = p[0]
+        seq = p[1]
+        L = [name, seq]
+        f_write.writelines(L)
+    f_write.close()
+
+    assert filecmp.cmp('test_fa_temp.txt', "./data/test.fa")
 
 
 def test_FastqParser():
@@ -38,4 +50,15 @@ def test_FastqParser():
     your FastqParser class and assert that it properly
     reads in the example Fastq File.
     """
-    pass
+    f_write = open('test_fq_temp.txt', 'w')
+
+    parser = FastqParser("./data/test.fq")
+    for p in parser: 
+        name = p[0]
+        seq = p[1]
+        qual = p[2]
+        L = [name, seq, "+\n", qual]
+        f_write.writelines(L)
+    f_write.close()
+
+    assert filecmp.cmp('test_fq_temp.txt', "./data/test.fq")
